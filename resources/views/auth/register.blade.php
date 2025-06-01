@@ -9,6 +9,22 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        <!-- Club selection -->
+        <div class="mt-4">
+            <x-input-label for="club_id" :value="__('Club')" />
+
+            <select id="club_id" name="club_id" required class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                <option value="" disabled selected>Select your club</option>
+                @foreach (\App\Models\Club::all() as $club)
+                    <option value="{{ $club->id }}" {{ old('club_id') == $club->id ? 'selected' : '' }}>
+                        {{ $club->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <x-input-error :messages="$errors->get('club_id')" class="mt-2" />
+        </div>
+
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />

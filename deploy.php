@@ -14,9 +14,10 @@ add('shared_dirs', ['storage', 'node_modules', 'public/build']);
 add('writable_dirs', ['storage', 'bootstrap/cache']);
 
 // Host setup
-host('ec2-your-server-address.compute.amazonaws.com')
+host('production')
+    ->setHostname('ec2-52-30-37-26.eu-west-1.compute.amazonaws.com')
     ->set('remote_user', 'ubuntu')
-    ->set('identity_file', '~/.ssh/airlink-ssh.pem')
+    ->set('identity_file', '~/.ssh/exall-ssh.pem')
     ->set('deploy_path', '/var/www/leaderboardlive.co.uk');
 
 // Assets build task

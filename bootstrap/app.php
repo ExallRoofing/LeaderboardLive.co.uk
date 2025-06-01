@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,7 +12,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Register global or route middleware
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        ]);
+
+        $middleware->group('club_admin', [
+            \Illuminate\Auth\Middleware\Authenticate::class,
+            \Spatie\Permission\Middleware\RoleMiddleware::class . ':club_admin',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

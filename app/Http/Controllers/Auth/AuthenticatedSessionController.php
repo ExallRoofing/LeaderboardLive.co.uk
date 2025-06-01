@@ -25,9 +25,16 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
+        $user = Auth::user();
+
+        // Redirect club admins to a dedicated dashboard
+        if ($user->hasRole('club_admin')) {
+            return redirect()->route('club.dashboard');
+        }
+
+        // Default player dashboard
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
