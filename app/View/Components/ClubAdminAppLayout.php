@@ -21,6 +21,6 @@ class ClubAdminAppLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('layouts.club-admin-app');
+        return view('layouts.club-admin-app-layout');
     }
 }
