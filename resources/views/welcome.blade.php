@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="Join weekly golf competitions from your local club and compete nationally. Powered by LeaderboardLive."/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>LeaderboardLive - Compete Nationally from Your Local Club</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
@@ -87,14 +88,15 @@
             Launching at clubs across the UK in July 2025.
         </p>
 
-        <form class="flex flex-col sm:flex-row gap-4 items-center justify-center max-w-md w-full">
+        <form id="subscribeForm" class="flex flex-col sm:flex-row gap-4 items-center justify-center max-w-md w-full">
             <div class="bg-black bg-opacity-40 p-4 rounded-lg backdrop-blur-sm inline-flex items-center gap-2">
-                <input type="email" placeholder="Your email" class="flex-1 p-3 rounded-md border border-white bg-white bg-opacity-90 text-black focus:outline-none" required>
+                <input id="emailInput" type="email" placeholder="Your email" class="flex-1 p-3 rounded-md border border-white bg-white bg-opacity-90 text-black focus:outline-none" required>
                 <button class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition">
                     Notify Me
                 </button>
             </div>
         </form>
+        <p id="responseMessage" class="text-sm text-white mt-4 text-center w-full"></p>
     </div>
     <!-- Footer -->
     <div class="text-center py-4">
@@ -103,5 +105,38 @@
         </p>
     </div>
 </div>
+
+<script>
+    document.getElementById('subscribeForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value;
+        const messageEl = document.getElementById('responseMessage');
+
+        try {
+            const response = await fetch('/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                messageEl.textContent = result.message;
+                messageEl.classList.remove('text-red-400');
+                messageEl.classList.add('text-green-400');
+            } else {
+                messageEl.textContent = result.message || 'There was an error.';
+                messageEl.classList.add('text-red-400');
+            }
+        } catch (error) {
+            messageEl.textContent = 'Submission failed. Try again.';
+            messageEl.classList.add('text-red-400');
+        }
+    });
+</script>
 </body>
 </html>

@@ -11,11 +11,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyEntriesController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\ClubAdmin\DashboardController as ClubDashboardController;
+use App\Http\Controllers\EarlyAccessController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::post('/subscribe', [EarlyAccessController::class, 'store']);
 Route::get('/login/google', [SocialAuthController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('/login/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
