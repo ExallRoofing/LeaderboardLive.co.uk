@@ -6,7 +6,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/prelaunch.css',
                 'resources/js/app.js',
+                'resources/js/subscribe.js',
             ],
             refresh: true,
         }),
