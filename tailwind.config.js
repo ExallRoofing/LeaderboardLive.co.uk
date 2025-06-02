@@ -43,6 +43,6 @@ export default {
         'score-birdie',
         'score-eagle',
         'score-bogey',
-        'score-double'
+        'score-double',
     ],
 };

@@ -6,63 +6,10 @@
     <meta name="description" content="Join weekly golf competitions from your local club and compete nationally. Powered by LeaderboardLive."/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>LeaderboardLive - Compete Nationally from Your Local Club</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Rajdhani', sans-serif;
-            overflow: hidden;
-            touch-action: none;
-        }
-        body{
-            overflow: hidden;
-            position: relative;
-        }
 
-        .bg-image {
-            position: relative;
-            background-image: url('/images/hero-image.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .top-fade {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 40vh;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .bottom-darken {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60vh;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .content-wrapper {
-            position: relative;
-            z-index: 2;
-        }
-        .top-fade,
-        .bottom-darken {
-            pointer-events: none;
-            overflow: hidden;
-        }
-    </style>
+    <!-- Fonts/CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/css/prelaunch.css', 'resources/js/app.js', 'resources/js/subscribe.js'])
 </head>
 
 <body class="bg-image text-white">
@@ -81,7 +28,7 @@
 
     <!-- Hero Section -->
     <div class="flex-grow flex flex-col items-center justify-center px-4 text-center">
-        <h1 class="text-3xl sm:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-white drop-shadow-lg">
             Play Locally, Compete Nationally.
         </h1>
         <p class="text-lg sm:text-xl mb-6 text-white drop-shadow-lg">
@@ -89,13 +36,17 @@
         </p>
 
         <form id="subscribeForm" class="flex flex-col sm:flex-row gap-4 items-center justify-center max-w-md w-full">
-            <div class="bg-black bg-opacity-40 p-4 rounded-lg backdrop-blur-sm inline-flex items-center gap-2">
-                <input id="emailInput" type="email" placeholder="Your email" class="flex-1 p-3 rounded-md border border-white bg-white bg-opacity-90 text-black focus:outline-none" required>
-                <button class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition">
+            <div class="bg-black bg-opacity-40 p-4 rounded-lg backdrop-blur-sm flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+            <input id="emailInput" type="email" placeholder="Your email"
+                       class="flex-1 w-full sm:w-auto p-3 rounded-md border border-white bg-white bg-opacity-90 text-black focus:outline-none"
+                       required>
+                <button class="w-full sm:w-auto min-w-[140px] whitespace-nowrap bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition">
                     Notify Me
                 </button>
+
             </div>
         </form>
+
         <p id="responseMessage" class="text-sm text-white mt-4 text-center w-full"></p>
     </div>
     <!-- Footer -->
@@ -105,38 +56,5 @@
         </p>
     </div>
 </div>
-
-<script>
-    document.getElementById('subscribeForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const email = document.getElementById('emailInput').value;
-        const messageEl = document.getElementById('responseMessage');
-
-        try {
-            const response = await fetch('/subscribe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ email })
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                messageEl.textContent = result.message;
-                messageEl.classList.remove('text-red-400');
-                messageEl.classList.add('text-green-400');
-            } else {
-                messageEl.textContent = result.message || 'There was an error.';
-                messageEl.classList.add('text-red-400');
-            }
-        } catch (error) {
-            messageEl.textContent = 'Submission failed. Try again.';
-            messageEl.classList.add('text-red-400');
-        }
-    });
-</script>
 </body>
 </html>

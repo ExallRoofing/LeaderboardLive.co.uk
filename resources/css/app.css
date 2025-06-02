@@ -133,3 +133,11 @@
     opacity: 8%;
 }
 
+@layer utilities {
+    .bg-image {
+        background-image: url('/images/hero-image.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
