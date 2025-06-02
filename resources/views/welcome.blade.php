@@ -14,6 +14,12 @@
             padding: 0;
             height: 100%;
             font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+        body{
+            overflow: hidden;
+            position: relative;
         }
 
         .bg-image {
@@ -29,7 +35,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 40%;
+            height: 40vh;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
             z-index: 1;
             pointer-events: none;
@@ -40,7 +46,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60%;
+            height: 60vh;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
             z-index: 1;
             pointer-events: none;
@@ -49,6 +55,11 @@
         .content-wrapper {
             position: relative;
             z-index: 2;
+        }
+        .top-fade,
+        .bottom-darken {
+            pointer-events: none;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -60,10 +71,10 @@
 <div class="bottom-darken"></div>
 
 <!-- Content Layer -->
-<div class="h-screen w-full flex flex-col justify-between content-wrapper">
+<div class="min-h-screen w-full flex flex-col justify-between content-wrapper overflow-hidden">
 
     <!-- Logo -->
-    <div class="w-full h-1/4 flex justify-center items-start mt-28">
+    <div class="w-full h-1/4 flex justify-center items-start mt-28 sm:mt-40">
         <img src="/images/logo.png" alt="LeaderboardLive Logo" class="h-40 sm:h-48">
     </div>
 
